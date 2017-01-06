@@ -28,12 +28,7 @@ class ArtistViewController: UITableViewController {
         tableView.separatorStyle = .none
         
         callAlamo(url: self.searchUrl)
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -63,11 +58,13 @@ class ArtistViewController: UITableViewController {
         
         var lbl = cell?.contentView.viewWithTag(1) as! UILabel
         var img = cell?.contentView.viewWithTag(2) as! UIImageView
-//        lbl.text = self.posts[indexPath.row]
         
-            img.image = posts[indexPath.row].mainImage
+        // codigo para hacer redonda un imageview
         
-        // Configure the cell...
+        
+        //lbl.text = self.posts[indexPath.row]
+        img.image = posts[indexPath.row].mainImage
+        
         lbl.text  = posts[indexPath.row].name
         return cell!
     }

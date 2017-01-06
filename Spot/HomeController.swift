@@ -13,6 +13,8 @@ struct dataCustomers {
     let image : UIImage!
     let name : String!
     let info: String!
+    let follwers: Int!
+    let likes: Int!
 }
 
 typealias jsonStandard = [String:AnyObject]
@@ -61,13 +63,26 @@ class HomeController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomerCell")
-        var label = cell?.contentView.viewWithTag(1) as! UILabel
-        var image = cell?.contentView.viewWithTag(2) as! UIImageView
-        var imageProfile = cell?.contentView.viewWithTag(3) as! UIImageView
+        let label = cell?.contentView.viewWithTag(1) as! UILabel
+        let image = cell?.contentView.viewWithTag(2) as! UIImageView
+        let imageProfile = cell?.contentView.viewWithTag(3) as! UIImageView
+        let starandfollwrs = cell?.contentView.viewWithTag(4) as! UILabel
+        
+        // codigo para hacer redonda un imageview
+        imageProfile.layer.cornerRadius = imageProfile.frame.size.width / 2
+        imageProfile.clipsToBounds = true
+        
+        // variables para manejar mucho mejor los textos de estrellas y seguidores
+        let followers = customers[indexPath.row].follwers
+        let likes = customers[indexPath.row].likes
+        
         // Configure the cell...
         label.text = customers[indexPath.row].name
         image.image = customers[indexPath.row].image
         imageProfile.image = customers[indexPath.row].image
+        starandfollwrs.text = "Starts \(likes!)    |    Followers \(followers!)"
+        
+        
         return cell!
     }
     
@@ -79,6 +94,10 @@ class HomeController: UITableViewController {
         vb.title = self.customers[indexPagh!].name
         vb.titulo = self.customers[indexPagh!].name
         vb.info = self.customers[indexPagh!].info
+        
+        let followers = self.customers[indexPagh!].follwers
+        let likes = self.customers[indexPagh!].likes
+        vb.starfolwers = "Starts \(likes!)    |    Followers \(followers!)"
     }
  
     
@@ -102,6 +121,8 @@ class HomeController: UITableViewController {
                     
                     var nameCustomer = pcustomers[i]["name"] as! String
                     var informacion = pcustomers[i]["info"] as! String
+                    var followers = pcustomers[i]["followers"] as? Int
+                    var likes = pcustomers[i]["likes"] as? Int
                     
                     // get de la imagen de cada restaurante
                     let mainImageURL = URL(string: pcustomers[i]["image"] as! String)
@@ -109,7 +130,7 @@ class HomeController: UITableViewController {
                     let mainImageData = NSData(contentsOf: mainImageURL!)
                     let mainImage = UIImage(data: mainImageData as! Data)
                     // agegar a la estructura las imagenes y los nombres
-                    customers.append(dataCustomers.init(image: mainImage, name: nameCustomer,info: informacion))
+                    customers.append(dataCustomers.init(image: mainImage, name: nameCustomer,info: informacion, follwers: followers,likes: likes))
                     self.tableView.reloadData()
                 }
                 
